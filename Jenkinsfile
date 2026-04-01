@@ -58,8 +58,10 @@ pipeline {
 
         stage('Deploy to EKS') {
             steps {
-                // Apply your deployment YAML with the correct image tag
-                sh 'kubectl apply -f deployment.yaml'
+                withAWS(region: 'us-east-1', credentials: 'aws-eks-creds') {
+                    sh 'aws eks --region us-east-1 update-kubeconfig --name devops-cluster'
+                    sh 'kubectl apply -f deployment.yaml'
+                }
             }
         }
     }
