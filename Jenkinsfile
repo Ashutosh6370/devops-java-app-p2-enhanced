@@ -58,7 +58,8 @@ pipeline {
 
         stage('Deploy to EKS') {
             steps {
-                sh 'kubectl apply -f deployment.yaml'
+                sh 'kubectl set image deployment/devops-java-app-p2-enhanced devops-java-app-p2-enhanced=$IMAGE_NAME:$IMAGE_TAG'
+                sh 'kubectl rollout status deployment/devops-java-app-p2-enhanced'
             }
         }
     }
