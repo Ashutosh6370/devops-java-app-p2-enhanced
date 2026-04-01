@@ -7,5 +7,6 @@ spec:
   selector:
     app: devops-java-app-p2-enhanced
   ports:
-    - port: 8080
-      targetPort: 8080
+    - port: 80        # ELB will listen on 80
+      targetPort: 8080  # Pods still on 8080
+      protocol: TCP
