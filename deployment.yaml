@@ -1,0 +1,19 @@
+apiversion: apps/v1
+kind: Deployment
+metadata: 
+  name: devops-java-app-p2-enhanced
+spec:
+  replicas: 2
+  selector:
+    matchLabels: 
+      app: devops-java-app-p2-enhanced
+  template:
+    metadata:
+      labels:
+        app: devops-java-app-p2-enhanced
+    spec:
+      conatiners:
+      - name: devops-java-app-p2-enhanced
+        image: ashutosh6370/devops-java-app-p2-enhanced
+        imagePullPolicy: Always
+        
