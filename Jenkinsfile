@@ -59,5 +59,11 @@ pipeline {
                 '''
             }
         }
+        stage('Expose Service') {
+            steps {
+                echo 'Applying LoadBalancer Service...'
+                sh 'kubectl apply -f service.yaml'
+            }
+        }
     }
 }
