@@ -15,5 +15,7 @@ spec:
       containers:
       - name: devops-java-app-p2-enhanced
         image: ashutosh6370/devops-java-app-p2-enhanced
+        ports:
+        - containerPort: 8080
         imagePullPolicy: Always
         
