@@ -3,10 +3,9 @@ kind: Service
 metadata:
   name: devops-java-app-p2-enhanced-svc
 spec:
+  type: LoadBalancer
   selector:
     app: devops-java-app-p2-enhanced
-  type: LoadBalancer
   ports:
-    - protocol: TCP
-      port: 80       # External port
-      targetPort: 8080  # Pod port inside your container
+    - port: 8080
+      targetPort: 8080
