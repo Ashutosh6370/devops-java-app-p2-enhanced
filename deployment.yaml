@@ -12,7 +12,7 @@ spec:
       labels:
         app: devops-java-app-p2-enhanced
     spec:
-      conatiners:
+      containers:
       - name: devops-java-app-p2-enhanced
         image: ashutosh6370/devops-java-app-p2-enhanced
         imagePullPolicy: Always
