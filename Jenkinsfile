@@ -2,6 +2,9 @@ pipeline {
     agent any
 
     environment {
+        AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+        AWS_DEFAULT_REGION = 'us-east-1'
         IMAGE_NAME = "ashutosh6370/devops-java-app-p2-enhanced"
         IMAGE_TAG = "v1"
     }
@@ -21,21 +24,15 @@ pipeline {
         }
 
         stage('Build') {
-            steps {
-                sh 'mvn clean package'
-            }
+            steps { sh 'mvn clean package' }
         }
 
         stage('Docker Build') {
-            steps {
-                sh 'docker build -t $IMAGE_NAME:$IMAGE_TAG .'
-            }
+            steps { sh 'docker build -t $IMAGE_NAME:$IMAGE_TAG .' }
         }
 
         stage('Trivy Scan') {
-            steps {
-                sh 'trivy image $IMAGE_NAME:$IMAGE_TAG'
-            }
+            steps { sh 'trivy image $IMAGE_NAME:$IMAGE_TAG' }
         }
 
         stage('Docker Login') {
@@ -51,17 +48,15 @@ pipeline {
         }
 
         stage('Push Image') {
-            steps {
-                sh 'docker push $IMAGE_NAME:$IMAGE_TAG'
-            }
+            steps { sh 'docker push $IMAGE_NAME:$IMAGE_TAG' }
         }
 
         stage('Deploy to EKS') {
             steps {
-                withAWS(region: 'us-east-1', credentials: 'aws-eks-creds') {
-                    sh 'aws eks --region us-east-1 update-kubeconfig --name devops-cluster'
-                    sh 'kubectl apply -f deployment.yaml'
-                }
+                sh '''
+                aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name devops-cluster
+                kubectl apply -f deployment.yaml
+                '''
             }
         }
     }
